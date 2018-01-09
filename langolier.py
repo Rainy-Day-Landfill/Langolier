@@ -107,7 +107,8 @@ class ConfigLoader:
         # enforce required values in the config
         self.ini_schema = {
             'elasticsearch': ['user', 'pass', 'dns_name'],
-            'logging': ['path']
+            'logging': ['path'],
+            'langolier': ['max_age']
         }
 
         if not os.path.exists(filename):
@@ -184,7 +185,7 @@ def Main( **kwargs ):
 
     create_test_data( buffet )
 
-    deletes = buffet.deletion_candidates(3)
+    deletes = buffet.deletion_candidates(config.getint('langolier', 'max_age'))
 
     buffet.delete_indices( deletes )
 
